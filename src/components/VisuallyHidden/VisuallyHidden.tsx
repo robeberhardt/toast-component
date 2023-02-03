@@ -1,18 +1,21 @@
-import React from 'react';
-
-import styles from './VisuallyHidden.module.css';
+import React from "react";
+import type { ReactNode } from "react";
+import styles from "./VisuallyHidden.module.css";
 
 const VisuallyHidden = ({
   children,
-  className = '',
+  className = "",
   ...delegated
+}: {
+  children: ReactNode;
+  className?: string;
 }) => {
   const [forceShow, setForceShow] = React.useState(false);
 
   React.useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') {
-      const handleKeyDown = (ev) => {
-        if (ev.key === 'Alt') {
+    if (process.env.NODE_ENV !== "production") {
+      const handleKeyDown = (ev: KeyboardEvent) => {
+        if (ev.key === "Alt") {
           setForceShow(true);
         }
       };
@@ -21,12 +24,12 @@ const VisuallyHidden = ({
         setForceShow(false);
       };
 
-      window.addEventListener('keydown', handleKeyDown);
-      window.addEventListener('keyup', handleKeyUp);
+      window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("keyup", handleKeyUp);
 
       return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-        window.removeEventListener('keyup', handleKeyUp);
+        window.removeEventListener("keydown", handleKeyDown);
+        window.removeEventListener("keyup", handleKeyUp);
       };
     }
   }, []);
