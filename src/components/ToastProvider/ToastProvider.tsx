@@ -19,6 +19,7 @@ type ToastContextType = {
   setToasts: Dispatch<ToastProps[]>;
   addToast: (toast: ToastProps) => void;
   removeToast: (id: string) => void;
+  removeAllToasts: () => void;
 };
 
 export const ToastContext = createContext<ToastContextType>({
@@ -26,6 +27,7 @@ export const ToastContext = createContext<ToastContextType>({
   setToasts: (toasts: ToastProps[]) => {},
   addToast: (toast: ToastProps) => {},
   removeToast: (id: string) => {},
+  removeAllToasts: () => {},
 });
 
 function ToastProvider({ children }: { children: ReactNode | ReactNode[] }) {
@@ -54,8 +56,14 @@ function ToastProvider({ children }: { children: ReactNode | ReactNode[] }) {
     [toasts, setToasts]
   );
 
+  const removeAllToasts = React.useCallback(() => {
+    setToasts([]);
+  }, [toasts, setToasts]);
+
   return (
-    <ToastContext.Provider value={{ toasts, setToasts, addToast, removeToast }}>
+    <ToastContext.Provider
+      value={{ toasts, setToasts, addToast, removeToast, removeAllToasts }}
+    >
       {children}
     </ToastContext.Provider>
   );
