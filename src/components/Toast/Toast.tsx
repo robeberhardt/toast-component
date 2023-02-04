@@ -7,9 +7,8 @@ import {
   X,
   type Icon,
 } from "react-feather";
-
+import { type ToastProps } from "../ToastProvider/ToastProvider";
 import VisuallyHidden from "../VisuallyHidden";
-
 import styles from "./Toast.module.css";
 
 const ICONS_BY_VARIANT: Record<string, Icon> = {
@@ -18,12 +17,6 @@ const ICONS_BY_VARIANT: Record<string, Icon> = {
   success: CheckCircle,
   error: AlertOctagon,
 };
-
-export interface ToastProps {
-  id: string;
-  variant: string;
-  children: ReactNode | ReactNode[];
-}
 
 function Toast({
   id,
@@ -34,6 +27,9 @@ function Toast({
   const IconElement = ICONS_BY_VARIANT[variant];
 
   function handleToastClick(event: PointerEvent<HTMLButtonElement>): void {
+    if (!id) {
+      throw new Error("Toast is missing ID");
+    }
     console.log(`You clicked id ${id}`);
     handleClick(id);
   }

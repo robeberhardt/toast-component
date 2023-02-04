@@ -1,28 +1,21 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useContext } from "react";
 
-import Toast, { ToastProps } from "../Toast";
+import Toast from "../Toast";
 import styles from "./ToastShelf.module.css";
+import { ToastContext } from "../ToastProvider/ToastProvider";
 
-function ToastShelf({
-  toasts,
-  setToasts,
-}: {
-  toasts: ToastProps[];
-  setToasts: Dispatch<ToastProps[]>;
-}) {
-  function handleClick(id: string): void {
-    console.log(`shelf says you clicked: ${id}`);
-    const nextToasts: ToastProps[] = toasts.filter((toast) => {
-      return toast.id !== id;
-    });
-    setToasts(nextToasts);
-  }
+function ToastShelf() {
+  const { toasts, removeToast } = useContext(ToastContext);
 
   return (
     <ol className={styles.wrapper}>
       {toasts.map(({ id, variant, children }) => (
         <li key={id} className={styles.toastWrapper}>
-          <Toast id={id} variant={variant} handleClick={handleClick}>
+          <Toast
+            id={id}
+            variant={variant}
+            handleClick={() => id && removeToast(id)}
+          >
             {children}
           </Toast>
         </li>

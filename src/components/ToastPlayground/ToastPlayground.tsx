@@ -1,24 +1,33 @@
-import React, { ChangeEvent, FormEvent, useRef, PointerEvent } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useRef,
+  PointerEvent,
+  useContext,
+  useEffect,
+} from "react";
 
-import { type ToastProps } from "../Toast";
 import Button from "../Button";
 import RadioButton from "../RadioButton";
 
 import styles from "./ToastPlayground.module.css";
 import ToastShelf from "../ToastShelf";
-
-const VARIANT_OPTIONS = ["notice", "warning", "success", "error"] as const;
-type Variant = typeof VARIANT_OPTIONS[number];
+import {
+  ToastContext,
+  VARIANT_OPTIONS,
+  type Variant,
+} from "../ToastProvider/ToastProvider";
 
 function ToastPlayground() {
   const [message, setMessage] = React.useState<string>("");
   const [selectedVariant, setSelectedVariant] =
     React.useState<Variant>("notice");
-  const [toasts, setToasts] = React.useState<ToastProps[]>([]);
+
+  const { toasts, setToasts, addToast } = useContext(ToastContext);
 
   const messageRef = useRef<HTMLTextAreaElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     messageRef?.current?.focus();
   }, [toasts]);
 
@@ -34,13 +43,7 @@ function ToastPlayground() {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    console.log("form submit: ", e.target);
-    const newToast: ToastProps = {
-      id: crypto.randomUUID(),
-      variant: `${selectedVariant}`,
-      children: `${message}`,
-    };
-    setToasts((currentToasts) => [...currentToasts, newToast]);
+    addToast({ variant: `${selectedVariant}`, children: `${message}` });
     setMessage("");
     setSelectedVariant("notice");
   }
@@ -52,7 +55,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ToastShelf toasts={toasts} setToasts={setToasts} />
+      <ToastShelf />
       <form onSubmit={handleSubmit}>
         <div className={styles.controlsWrapper}>
           <div className={styles.row}>
