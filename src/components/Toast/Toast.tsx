@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import React, { MouseEventHandler, PointerEvent, type ReactNode } from "react";
 import {
   AlertOctagon,
   AlertTriangle,
@@ -19,23 +19,32 @@ const ICONS_BY_VARIANT: Record<string, Icon> = {
   error: AlertOctagon,
 };
 
-function Toast({
-  variant,
-  handleDismiss,
-  children,
-}: {
+export interface ToastProps {
+  id: string;
   variant: string;
-  handleDismiss?: () => void;
   children: ReactNode | ReactNode[];
-}) {
+}
+
+function Toast({
+  id,
+  variant,
+  children,
+  handleClick,
+}: ToastProps & { handleClick: (id: string) => void }) {
   const IconElement = ICONS_BY_VARIANT[variant];
+
+  function handleToastClick(event: PointerEvent<HTMLButtonElement>): void {
+    console.log(`You clicked id ${id}`);
+    handleClick(id);
+  }
+
   return (
     <div className={`${styles.toast} ${styles[variant]}`}>
       <div className={styles.iconContainer}>
         <IconElement size={24} />
       </div>
       <p className={styles.content}>{children}</p>
-      <button className={styles.closeButton} onClick={handleDismiss}>
+      <button className={styles.closeButton} onClick={handleToastClick}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>

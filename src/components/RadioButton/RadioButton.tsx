@@ -16,8 +16,6 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   ...delegated
 }) => {
   const radioLabel: string = children?.toString() || "";
-  console.log("radio children: ", children);
-  console.log("thype: ", typeof children);
   if (!children) return null;
   return (
     <label htmlFor={`variant-${radioLabel}`}>
