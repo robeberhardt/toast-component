@@ -1,4 +1,4 @@
-import React, { ChangeEvent, PointerEvent } from "react";
+import React, { ChangeEvent, useRef, PointerEvent } from "react";
 
 import Toast, { type ToastProps } from "../Toast";
 import Button from "../Button";
@@ -15,6 +15,12 @@ function ToastPlayground() {
   const [selectedVariant, setSelectedVariant] =
     React.useState<Variant>("notice");
   const [toasts, setToasts] = React.useState<ToastProps[]>([]);
+
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+
+  React.useEffect(() => {
+    messageRef?.current?.focus();
+  }, [toasts]);
 
   function handleMessageChange(event: ChangeEvent<HTMLTextAreaElement>): void {
     const { value } = event.target as HTMLTextAreaElement;
@@ -33,6 +39,8 @@ function ToastPlayground() {
       children: `${message}`,
     };
     setToasts((currentToasts) => [...currentToasts, newToast]);
+    setMessage("");
+    setSelectedVariant("notice");
   }
 
   const handleDismissToast = (id: string) => {
@@ -62,6 +70,7 @@ function ToastPlayground() {
           <div className={styles.inputWrapper}>
             <textarea
               id="message"
+              ref={messageRef}
               value={message}
               className={styles.messageInput}
               onChange={handleMessageChange}
