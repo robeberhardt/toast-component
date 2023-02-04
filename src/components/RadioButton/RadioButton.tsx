@@ -18,7 +18,10 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   const radioLabel: string = children?.toString() || "";
   if (!children) return null;
   return (
-    <label htmlFor={`variant-${radioLabel}`}>
+    <label
+      htmlFor={`variant-${radioLabel}`}
+      style={{ userSelect: "none", cursor: "pointer" }}
+    >
       <input
         id={`variant-${radioLabel}`}
         type="radio"
@@ -26,6 +29,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
         readOnly
         value={radioLabel}
         checked={checked}
+        style={{ cursor: "pointer" }}
         {...delegated}
       />
       {titleCase(children?.toString())}
