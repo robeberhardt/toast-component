@@ -10,16 +10,6 @@ function ToastShelf({
   toasts: ToastProps[];
   setToasts: Dispatch<ToastProps[]>;
 }) {
-  React.useEffect(() => {
-    const logToasts = window.setInterval(() => {
-      console.log({ toasts });
-    }, 1000);
-
-    return () => {
-      window.clearInterval(logToasts);
-    };
-  }, [toasts]);
-
   function handleClick(id: string): void {
     console.log(`shelf says you clicked: ${id}`);
     const nextToasts: ToastProps[] = toasts.filter((toast) => {
