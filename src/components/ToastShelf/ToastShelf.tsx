@@ -8,7 +8,12 @@ function ToastShelf() {
   const { toasts, removeToast } = useContext(ToastContext);
 
   return (
-    <ol className={styles.wrapper}>
+    <ol
+      className={styles.wrapper}
+      role="region"
+      aria-live="assertive"
+      aria-label="Notification"
+    >
       {toasts.map(({ id, variant, children }) => (
         <li key={id} className={styles.toastWrapper}>
           <Toast
