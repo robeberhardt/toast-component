@@ -1,4 +1,5 @@
 import React, { Dispatch, ReactNode, createContext } from "react";
+import useEscapeKey from "../../hooks/useEscapeKey";
 
 export interface ToastProps {
   id?: string;
@@ -32,6 +33,8 @@ export const ToastContext = createContext<ToastContextType>({
 
 function ToastProvider({ children }: { children: ReactNode | ReactNode[] }) {
   const [toasts, setToasts] = React.useState<ToastProps[]>([]);
+
+  const handleEscape = useEscapeKey(() => removeAllToasts());
 
   const addToast = React.useCallback(
     ({ variant, children }: ToastProps) => {

@@ -1,14 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import Toast from "../Toast";
 import styles from "./ToastShelf.module.css";
 import { ToastContext } from "../ToastProvider/ToastProvider";
-import useEscapeKey from "../../hooks/useEscapeKey";
 
 function ToastShelf() {
   const { toasts, removeToast, removeAllToasts } = useContext(ToastContext);
-
-  const handleEscape = useEscapeKey(() => removeAllToasts());
 
   return (
     <ol
