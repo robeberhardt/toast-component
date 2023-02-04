@@ -1,17 +1,19 @@
 import React, { ChangeEvent, PointerEvent } from "react";
 
+import Toast from "../Toast";
 import Button from "../Button";
 import RadioButton from "../RadioButton";
 
 import styles from "./ToastPlayground.module.css";
 
-const VARIANT_OPTIONS = ["Notice", "Warning", "Success", "Error"] as const;
+const VARIANT_OPTIONS = ["notice", "warning", "success", "error"] as const;
 type Variant = typeof VARIANT_OPTIONS[number];
 
 function ToastPlayground() {
   const [message, setMessage] = React.useState<string>("");
   const [selectedVariant, setSelectedVariant] =
-    React.useState<Variant>("Notice");
+    React.useState<Variant>("notice");
+  const [showToast, setShowToast] = React.useState(false);
 
   function handleMessageChange(event: ChangeEvent<HTMLTextAreaElement>): void {
     const { value } = event.target as HTMLTextAreaElement;
@@ -21,12 +23,26 @@ function ToastPlayground() {
     const { value } = event.target as HTMLInputElement;
     setSelectedVariant(value as Variant);
   }
+
+  function handleDismissToast() {
+    setShowToast(false);
+  }
+
   return (
     <div className={styles.wrapper}>
       <header>
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
+
+      {showToast && (
+        <Toast
+          variant={selectedVariant as string}
+          handleDismiss={handleDismissToast}
+        >
+          {message}
+        </Toast>
+      )}
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -65,7 +81,7 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button>Pop Toast!</Button>
+            <Button onClick={() => setShowToast(true)}>Pop Toast!</Button>
           </div>
         </div>
       </div>

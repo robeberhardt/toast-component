@@ -6,12 +6,19 @@ interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
   onClick?: (e: PointerEvent<HTMLInputElement>) => void;
 }
 
+function titleCase(input: string): string {
+  return input?.substring(0, 1).toUpperCase() + input?.substring(1);
+}
+
 const RadioButton: React.FC<RadioButtonProps> = ({
   checked = false,
   children,
   ...delegated
 }) => {
   const radioLabel: string = children?.toString() || "";
+  console.log("radio children: ", children);
+  console.log("thype: ", typeof children);
+  if (!children) return null;
   return (
     <label htmlFor={`variant-${radioLabel}`}>
       <input
@@ -23,7 +30,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
         checked={checked}
         {...delegated}
       />
-      {children}
+      {titleCase(children?.toString())}
     </label>
   );
 };
