@@ -34,7 +34,7 @@ export const ToastContext = createContext<ToastContextType>({
 function ToastProvider({ children }: { children: ReactNode | ReactNode[] }) {
   const [toasts, setToasts] = React.useState<ToastProps[]>([]);
 
-  const handleEscape = useEscapeKey(() => removeAllToasts());
+  useEscapeKey(() => removeAllToasts());
 
   const addToast = React.useCallback(
     ({ variant, children }: ToastProps) => {
@@ -61,7 +61,7 @@ function ToastProvider({ children }: { children: ReactNode | ReactNode[] }) {
 
   const removeAllToasts = React.useCallback(() => {
     setToasts([]);
-  }, [toasts, setToasts]);
+  }, [setToasts]);
 
   return (
     <ToastContext.Provider

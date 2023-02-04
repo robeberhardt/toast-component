@@ -23,7 +23,7 @@ function ToastPlayground() {
   const [selectedVariant, setSelectedVariant] =
     React.useState<Variant>("notice");
 
-  const { toasts, setToasts, addToast } = useContext(ToastContext);
+  const { toasts, addToast } = useContext(ToastContext);
 
   const messageRef = useRef<HTMLTextAreaElement>(null);
 

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, PointerEvent, type ReactNode } from "react";
+import { PointerEvent } from "react";
 import {
   AlertOctagon,
   AlertTriangle,

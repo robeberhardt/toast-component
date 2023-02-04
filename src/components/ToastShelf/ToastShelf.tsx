@@ -5,7 +5,7 @@ import styles from "./ToastShelf.module.css";
 import { ToastContext } from "../ToastProvider/ToastProvider";
 
 function ToastShelf() {
-  const { toasts, removeToast, removeAllToasts } = useContext(ToastContext);
+  const { toasts, removeToast } = useContext(ToastContext);
 
   return (
     <ol

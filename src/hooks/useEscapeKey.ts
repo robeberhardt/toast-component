@@ -1,4 +1,4 @@
-import React, { EffectCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 function useEscapeKey(callback: Function) {
   useEffect(() => {
@@ -13,7 +13,7 @@ function useEscapeKey(callback: Function) {
     return () => {
       window.removeEventListener("keydown", handleKeydown);
     };
-  }, []);
+  }, [callback]);
 }
 
 export default useEscapeKey;
